@@ -3,33 +3,39 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Routes, Route, Navigate } from 'react-router';
 import Landing from './pages/Landing';
 import extendedTheme from './theme';
-import DefaultPage from './components/layouts/DefaultPage';
+import DefaultLayout from './components/layouts/DefaultLayout';
+import Loader from './components/Loader';
+import Settings from './pages/Settings';
 
 const App = () => {
 	return (
 		<ChakraProvider theme={extendedTheme}>
-			<DefaultPage>
+			<DefaultLayout>
 				<Routes>
-					<Route path="/">
+					<Route path='/'>
 						<Route
 							exact
-							path=""
+							path=''
 							element={
-								<Suspense fallback={<>Loading</>}>
+								<Suspense fallback={<Loader />}>
 									<Landing />
 								</Suspense>
 							}
 						/>
 						<Route
 							exact
-							path="/about"
-							element={<Suspense fallback={<>Loading</>}>About</Suspense>}
+							path='/settings'
+							element={
+								<Suspense fallback={<Loader />}>
+									<Settings />
+								</Suspense>
+							}
 						/>
-						<Route exact path="404" element={<>404 Page not found</>} />
-						<Route path="*" element={<Navigate to="/404" />} />
+						<Route exact path='404' element={<>404 Page not found</>} />
+						<Route path='*' element={<Navigate to='/404' />} />
 					</Route>
 				</Routes>
-			</DefaultPage>
+			</DefaultLayout>
 		</ChakraProvider>
 	);
 };
