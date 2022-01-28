@@ -2,25 +2,24 @@ import { Flex, Link, useColorModeValue, VStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = (props) => {
-	const bgColor = useColorModeValue('white.50', 'gray.900');
+	const bgColor = useColorModeValue('gray.100', 'gray.900');
 
 	return (
 		<Flex
-			as="nav"
-			align="center"
-			justify="space-between"
-			w="100%"
+			as='nav'
+			align='center'
+			justify='space-between'
+			w='100%'
 			p={2}
 			px={4}
-			shadow="sm"
+			shadow='sm'
 			bgColor={bgColor}
 			pos={'sticky'}
 			top={0}>
-			<NavLink to="/">Reindeer</NavLink>
-			Footer
+			<NavLink to='/'>Reindeer</NavLink>
 			<VStack>
-				<NavLink to="/">Home</NavLink>
-				<NavLink to="/about">About</NavLink>
+				<NavLink to='/'>Home</NavLink>
+				<NavLink to='/about'>About</NavLink>
 			</VStack>
 		</Flex>
 	);
