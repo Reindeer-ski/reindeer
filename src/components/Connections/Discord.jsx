@@ -2,9 +2,10 @@ import {
 	Button,
 	Box,
 	useToast,
-	HStack,
+	Stack,
 	Text,
 	IconButton,
+	HStack,
 } from '@chakra-ui/react';
 import { useMoralisCloudFunction } from 'react-moralis';
 import OauthPopup from 'react-oauth-popup';
@@ -50,32 +51,41 @@ const Discord = () => {
 	} = useMoralisCloudFunction('discordVerify', {}, { autoFetch: false });
 
 	return (
-		<HStack spacing={4}>
-			<Text w='15ch'>Discord</Text>
-			<Box w={'30ch'}>
-				<OauthPopup url={DISCORD_AUTH_URL} onCode={onCode} onClose={onClose}>
-					<Button
-						flex={1}
-						fontSize={'sm'}
-						rounded={'full'}
-						px={10}
-						py={3}
-						bg={'blue.400'}
-						color={'white'}
-						_hover={{
-							bg: 'blue.500',
-						}}>
-						Connect Discord
-					</Button>
-				</OauthPopup>
-			</Box>
-			<IconButton
-				variant='outline'
-				icon={<HiOutlineTrash />}
-				color='red.500'
-				aria-label='disconnect discord'
-			/>
-		</HStack>
+		<Stack
+			direction={['column', 'row']}
+			w={'100%'}
+			spacing='5'
+			wrap='wrap'
+			justify='center'>
+			<Text minW='15ch' textAlign={'center'}>
+				Discord
+			</Text>
+			<HStack spacing={5}>
+				<Box w={'25ch'}>
+					<OauthPopup url={DISCORD_AUTH_URL} onCode={onCode} onClose={onClose}>
+						<Button
+							flex={1}
+							fontSize={'sm'}
+							rounded={'full'}
+							px={10}
+							py={3}
+							bg={'blue.400'}
+							color={'white'}
+							_hover={{
+								bg: 'blue.500',
+							}}>
+							Connect Discord
+						</Button>
+					</OauthPopup>
+				</Box>
+				<IconButton
+					variant='outline'
+					icon={<HiOutlineTrash />}
+					color='red.500'
+					aria-label='disconnect discord'
+				/>
+			</HStack>
+		</Stack>
 	);
 };
 

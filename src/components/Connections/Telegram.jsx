@@ -1,5 +1,12 @@
 import TelegramLoginButton from 'react-telegram-login';
-import { HStack, Text, Box, useToast, IconButton } from '@chakra-ui/react';
+import {
+	HStack,
+	Text,
+	Box,
+	useToast,
+	IconButton,
+	Stack,
+} from '@chakra-ui/react';
 import { useMoralisCloudFunction } from 'react-moralis';
 import { HiOutlineTrash } from 'react-icons/hi';
 
@@ -36,22 +43,31 @@ const Telegram = () => {
 		});
 	};
 	return (
-		<HStack spacing={4}>
-			<Text w='15ch'>Telegram</Text>
-			<Box w={'30ch'}>
-				<TelegramLoginButton
-					disabled={veryfingtelegram}
-					dataOnauth={handleTelegramResponse}
-					botName='ReindeerSkiBot'
+		<Stack
+			direction={['column', 'row']}
+			w={'100%'}
+			spacing='5'
+			wrap='wrap'
+			justify='center'>
+			<Text minW='15ch' textAlign={'center'}>
+				Telegram
+			</Text>
+			<HStack spacing={5}>
+				<Box w={'25ch'}>
+					<TelegramLoginButton
+						disabled={veryfingtelegram}
+						dataOnauth={handleTelegramResponse}
+						botName='ReindeerSkiBot'
+					/>
+				</Box>
+				<IconButton
+					variant='outline'
+					icon={<HiOutlineTrash />}
+					color='red.500'
+					aria-label='disconnect discord'
 				/>
-			</Box>
-			<IconButton
-				variant='outline'
-				icon={<HiOutlineTrash />}
-				color='red.500'
-				aria-label='disconnect discord'
-			/>
-		</HStack>
+			</HStack>
+		</Stack>
 	);
 };
 
