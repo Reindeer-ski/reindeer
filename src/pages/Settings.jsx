@@ -34,7 +34,7 @@ const Settings = () => {
 					mx='auto'
 					py={10}
 					maxW={'80ch'}
-					bg={useColorModeValue('gray.50', 'gray.700')}
+					bg={useColorModeValue('orange.50', 'gray.700')}
 					borderRadius='md'>
 					<Avatar
 						size={'lg'}

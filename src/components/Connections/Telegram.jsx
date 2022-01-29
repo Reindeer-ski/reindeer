@@ -1,17 +1,13 @@
 import TelegramLoginButton from 'react-telegram-login';
-import {
-	HStack,
-	Text,
-	Box,
-	useToast,
-	IconButton,
-	Stack,
-} from '@chakra-ui/react';
-import { useMoralisCloudFunction } from 'react-moralis';
-import { HiOutlineTrash } from 'react-icons/hi';
+import { HStack, Text, Box, useToast, Stack } from '@chakra-ui/react';
+import { useMoralisCloudFunction, useMoralis } from 'react-moralis';
+import { useEffect } from 'react';
+import DeleteConnection from './DeleteConnection';
+import ConnectionLayout from '../layouts/ConnectionLayout';
 
 const Telegram = () => {
 	const toast = useToast();
+	const { refetchUserData, user } = useMoralis();
 	const {
 		fetch: telegramVerify,
 		data: telegramVerifyResult,
@@ -19,6 +15,9 @@ const Telegram = () => {
 		isLoading: veryfingtelegram,
 	} = useMoralisCloudFunction('telegramVerify', {}, { autoFetch: false });
 
+	useEffect(() => {
+		if (user) refetchUserData();
+	}, []);
 	const handleTelegramResponse = (response) => {
 		console.log(response);
 		telegramVerify({
@@ -38,36 +37,19 @@ const Telegram = () => {
 					// duration: 5000,
 					isClosable: true,
 				});
+				refetchUserData();
 			},
 			params: { data: response },
 		});
 	};
 	return (
-		<Stack
-			direction={['column', 'row']}
-			w={'100%'}
-			spacing='5'
-			wrap='wrap'
-			justify='center'>
-			<Text minW='15ch' textAlign={'center'}>
-				Telegram
-			</Text>
-			<HStack spacing={5}>
-				<Box w={'25ch'}>
-					<TelegramLoginButton
-						disabled={veryfingtelegram}
-						dataOnauth={handleTelegramResponse}
-						botName='ReindeerSkiBot'
-					/>
-				</Box>
-				<IconButton
-					variant='outline'
-					icon={<HiOutlineTrash />}
-					color='red.500'
-					aria-label='disconnect discord'
-				/>
-			</HStack>
-		</Stack>
+		<ConnectionLayout connectionName={'telegram'}>
+			<TelegramLoginButton
+				disabled={veryfingtelegram}
+				dataOnauth={handleTelegramResponse}
+				botName='ReindeerSkiBot'
+			/>
+		</ConnectionLayout>
 	);
 };
 
