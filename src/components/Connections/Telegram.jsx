@@ -1,8 +1,7 @@
 import TelegramLoginButton from 'react-telegram-login';
-import { HStack, Text, Box, useToast, Stack } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { useMoralisCloudFunction, useMoralis } from 'react-moralis';
 import { useEffect } from 'react';
-import DeleteConnection from './DeleteConnection';
 import ConnectionLayout from '../layouts/ConnectionLayout';
 
 const Telegram = () => {
