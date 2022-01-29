@@ -28,15 +28,21 @@ const UserMenu = () => {
 				variant={'link'}
 				cursor={'pointer'}
 				minW={0}>
-				<Avatar size={'sm'} src={makeBlockie(user.get('ethAddress'))} />
+				<Avatar
+					size={'sm'}
+					src={makeBlockie(user?.get('ethAddress')) || '0x'}
+				/>
 			</MenuButton>
 			<MenuList alignItems={'center'} boxShadow={'lg'}>
 				<Center>
-					<Avatar size={'xl'} src={makeBlockie(user.get('ethAddress'))} />
+					<Avatar
+						size={'xl'}
+						src={makeBlockie(user?.get('ethAddress') || '0x')}
+					/>
 				</Center>
 				<Center>
 					<Text maxW='10ch' isTruncated>
-						{user.get('ethAddress')}
+						{user?.get('ethAddress')}
 					</Text>
 				</Center>
 				<MenuDivider />
