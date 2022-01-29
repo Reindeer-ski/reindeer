@@ -23,7 +23,7 @@ const DeleteConnection = ({ connectionName }) => {
 				variant='outline'
 				icon={<HiOutlineTrash />}
 				color='red.500'
-				aria-label='disconnect discord'
+				aria-label={`disconnect ${connectionName}`}
 				onClick={() => setIsOpen(true)}
 			/>
 
@@ -49,7 +49,11 @@ const DeleteConnection = ({ connectionName }) => {
 							<Button ref={cancelRef} onClick={onClose}>
 								Cancel
 							</Button>
-							<Button colorScheme='red' onClick={onClose} ml={3}>
+							<Button
+								colorScheme='red'
+								onClick={onClose}
+								ml={3}
+								aria-label={`disconnect ${connectionName}`}>
 								Delete
 							</Button>
 						</AlertDialogFooter>
