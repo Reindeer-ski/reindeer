@@ -1,3 +1,4 @@
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { Flex, Link, useColorModeValue, VStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -17,6 +18,7 @@ const Footer = (props) => {
 			pos={'sticky'}
 			top={0}>
 			<NavLink to='/'>Reindeer</NavLink>
+			<ColorModeSwitcher />
 			<VStack>
 				<NavLink to='/'>Home</NavLink>
 				<NavLink to='/about'>About</NavLink>
