@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Routes, Route, Navigate } from 'react-router';
 import Landing from './pages/Landing';
@@ -7,8 +7,14 @@ import extendedTheme from './theme';
 import DefaultLayout from './components/layouts/DefaultLayout';
 import Loader from './components/Loader';
 import Settings from './pages/Settings';
+import { useMoralis } from 'react-moralis';
+import Notifications from './pages/Notifications';
 
 const App = () => {
+	const { refetchUserData, user } = useMoralis();
+	useEffect(() => {
+		if (user) refetchUserData();
+	}, [user]);
 	return (
 		<ChakraProvider theme={extendedTheme}>
 			<DefaultLayout>
@@ -37,6 +43,15 @@ const App = () => {
 							path='/all'
 							element={
 								<Suspense fallback={<Loader />}>All Notifications</Suspense>
+							}
+						/>
+						<Route
+							exact
+							path='/dapp/:address'
+							element={
+								<Suspense fallback={<Loader />}>
+									<Notifications />
+								</Suspense>
 							}
 						/>
 						<Route
