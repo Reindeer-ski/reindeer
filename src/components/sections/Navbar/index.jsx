@@ -5,6 +5,7 @@ import {
 	useDisclosure,
 	IconButton,
 	VStack,
+	Text,
 } from '@chakra-ui/react';
 import Notifications from './Notifications';
 import UserMenu from './UserMenu';
@@ -31,12 +32,15 @@ const Navbar = (props) => {
 				top={0}
 				wrap='wrap'
 				zIndex={999}>
-				<NavLink to='/'>Reindeer.ski</NavLink>
+				<NavLink to='/'>
+					<Text fontSize='lg' fontWeight='bold'>
+						Reindeer.ski
+					</Text>
+				</NavLink>
 
-				<HStack display={{ base: 'none', md: 'flex' }}>
+				<HStack display={{ base: 'none', sm: 'flex' }}>
 					<NavLink to='/'>Home</NavLink>
 					<NavLink to='/dashboard'>Dashboard</NavLink>
-					<NavLink to='/settings'>Settings</NavLink>
 				</HStack>
 				<HStack>
 					<Notifications />
@@ -46,7 +50,7 @@ const Navbar = (props) => {
 						icon={isOpen ? null : <RiMenu5Fill />}
 						variant={'ghost'}
 						aria-label={'Toggle Navigation'}
-						display={{ base: 'flex', md: 'none' }}
+						display={{ base: 'flex', sm: 'none' }}
 					/>
 				</HStack>
 			</Flex>
@@ -62,7 +66,7 @@ const MobileNav = ({ onToggle }) => {
 	return (
 		<>
 			<MotionVStack
-				display={{ base: 'flex', md: 'none' }}
+				display={{ base: 'flex', sm: 'none' }}
 				bg={useColorModeValue('blue.50', 'gray.900')}
 				p={4}
 				justify='center'
