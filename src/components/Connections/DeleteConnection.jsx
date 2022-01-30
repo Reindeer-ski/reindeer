@@ -11,11 +11,24 @@ import {
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi';
+import { useMoralis, useMoralisCloudFunction } from 'react-moralis';
 
 const DeleteConnection = ({ connectionName }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const onClose = () => setIsOpen(false);
+	const { refetchUserData } = useMoralis();
+
+	const onClose = async () => {
+		await deleteConnection({ params: { platform: connectionName } });
+		refetchUserData();
+		setIsOpen(false);
+	};
+
 	const cancelRef = useRef();
+	const { fetch: deleteConnection } = useMoralisCloudFunction(
+		'deleteConnection',
+		{},
+		{ autoFetch: false }
+	);
 
 	return (
 		<>

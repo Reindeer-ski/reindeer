@@ -5,14 +5,18 @@ import {
 	InputRightElement,
 	useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
 import ConnectionLayout from '../layouts/ConnectionLayout';
 
 const Email = () => {
 	const { user, refetchUserData } = useMoralis();
-	const [email, setEmail] = useState(user?.get('email'));
+	const [email, setEmail] = useState();
 	const toast = useToast();
+
+	useEffect(() => {
+		setEmail(user?.get('email'));
+	}, [user]);
 
 	const handleSubmit = () => {
 		// set email in moralis user

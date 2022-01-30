@@ -1,5 +1,5 @@
 import TelegramLoginButton from 'react-telegram-login';
-import { useToast } from '@chakra-ui/react';
+import { useToast, Text } from '@chakra-ui/react';
 import { useMoralisCloudFunction, useMoralis } from 'react-moralis';
 import { useEffect } from 'react';
 import ConnectionLayout from '../layouts/ConnectionLayout';
@@ -43,11 +43,17 @@ const Telegram = () => {
 	};
 	return (
 		<ConnectionLayout connectionName={'telegram'}>
-			<TelegramLoginButton
-				disabled={veryfingtelegram}
-				dataOnauth={handleTelegramResponse}
-				botName='ReindeerSkiBot'
-			/>
+			{user?.get('socials')?.telegram ? (
+				<Text as='span' fontSize='sm' color='green.500'>
+					Connected {user.get('socials').telegram.userId}
+				</Text>
+			) : (
+				<TelegramLoginButton
+					disabled={veryfingtelegram}
+					dataOnauth={handleTelegramResponse}
+					botName='ReindeerSkiBot'
+				/>
+			)}
 		</ConnectionLayout>
 	);
 };

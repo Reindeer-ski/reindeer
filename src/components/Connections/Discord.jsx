@@ -1,5 +1,5 @@
-import { Button, useToast } from '@chakra-ui/react';
-import { useMoralisCloudFunction } from 'react-moralis';
+import { Button, Text, useToast } from '@chakra-ui/react';
+import { useMoralis, useMoralisCloudFunction } from 'react-moralis';
 import OauthPopup from 'react-oauth-popup';
 import ConnectionLayout from '../layouts/ConnectionLayout';
 
@@ -8,6 +8,7 @@ const DISCORD_AUTH_URL =
 
 const Discord = () => {
 	const toast = useToast();
+	const { user } = useMoralis();
 
 	const onCode = async (code) => {
 		console.log('code', code);
@@ -44,21 +45,27 @@ const Discord = () => {
 
 	return (
 		<ConnectionLayout connectionName={'discord'}>
-			<OauthPopup url={DISCORD_AUTH_URL} onCode={onCode} onClose={onClose}>
-				<Button
-					flex={1}
-					fontSize={'sm'}
-					rounded={'full'}
-					px={10}
-					py={3}
-					bg={'blue.400'}
-					color={'white'}
-					_hover={{
-						bg: 'blue.500',
-					}}>
-					Connect Discord
-				</Button>
-			</OauthPopup>
+			{user?.get('socials')?.discord ? (
+				<Text as='span' fontSize='sm' color='green.500'>
+					Connected {user.get('socials').discord.username}
+				</Text>
+			) : (
+				<OauthPopup url={DISCORD_AUTH_URL} onCode={onCode} onClose={onClose}>
+					<Button
+						flex={1}
+						fontSize={'sm'}
+						rounded={'full'}
+						px={10}
+						py={3}
+						bg={'blue.400'}
+						color={'white'}
+						_hover={{
+							bg: 'blue.500',
+						}}>
+						Connect Discord
+					</Button>
+				</OauthPopup>
+			)}
 		</ConnectionLayout>
 	);
 };

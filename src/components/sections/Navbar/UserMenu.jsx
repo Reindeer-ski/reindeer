@@ -59,7 +59,7 @@ const UserMenu = () => {
 			variant='outline'
 			colorScheme='red'
 			onClick={() => authenticate()}>
-			Connect Wallet
+			Connect
 		</Button>
 	);
 };
