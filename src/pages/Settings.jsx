@@ -13,6 +13,7 @@ import { useMoralis } from 'react-moralis';
 import Discord from '../components/Connections/Discord';
 import Telegram from '../components/Connections/Telegram';
 import makeBlockie from 'ethereum-blockies-base64';
+import Email from '../components/Connections/Email';
 
 const Settings = () => {
 	const { user, Moralis } = useMoralis();
@@ -59,6 +60,7 @@ const Settings = () => {
 					borderRadius='md'>
 					<Discord />
 					<Telegram />
+					<Email />
 				</VStack>
 
 				{/* <Code size={'sm'} as='pre' mt={10}>

@@ -17,7 +17,7 @@ const Discord = () => {
 					title: `Error`,
 					description: err.message,
 					status: 'error',
-					// duration: 5000,
+					duration: 5000,
 					isClosable: true,
 				}),
 			onSuccess: (data) => {
@@ -25,7 +25,7 @@ const Discord = () => {
 					title: 'Success',
 					description: 'Discord account verified',
 					status: 'success',
-					// duration: 5000,
+					duration: 5000,
 					isClosable: true,
 				});
 			},

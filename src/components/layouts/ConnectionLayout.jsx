@@ -11,7 +11,9 @@ const ConnectionLayout = ({ children, connectionName }) => {
 			justify='center'>
 			<Text
 				minW='15ch'
-				textAlign={'center'}
+				display={'flex'}
+				alignItems={'center'}
+				justifyContent={'center'}
 				sx={{ textTransform: 'capitalize' }}>
 				{connectionName}
 			</Text>
