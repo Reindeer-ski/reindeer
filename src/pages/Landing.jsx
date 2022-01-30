@@ -4,8 +4,8 @@ import Page from '../components/layouts/Page';
 const Landing = () => {
 	return (
 		<Page>
-			<Heading as='h3' size='lg'>
-				Reindeer Ski
+			<Heading as='h1' size='2xl'>
+				Reindeer.Ski
 			</Heading>
 			<Text>Notifications for all your DApps</Text>
 		</Page>

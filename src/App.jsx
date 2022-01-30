@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Routes, Route, Navigate } from 'react-router';
 import Landing from './pages/Landing';
+import Dashboard from './pages/Dashboard';
 import extendedTheme from './theme';
 import DefaultLayout from './components/layouts/DefaultLayout';
 import Loader from './components/Loader';
@@ -20,6 +21,22 @@ const App = () => {
 								<Suspense fallback={<Loader />}>
 									<Landing />
 								</Suspense>
+							}
+						/>
+						<Route
+							exact
+							path='/dashboard'
+							element={
+								<Suspense fallback={<Loader />}>
+									<Dashboard />
+								</Suspense>
+							}
+						/>
+						<Route
+							exact
+							path='/all'
+							element={
+								<Suspense fallback={<Loader />}>All Notifications</Suspense>
 							}
 						/>
 						<Route
