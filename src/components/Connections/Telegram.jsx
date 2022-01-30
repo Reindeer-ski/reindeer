@@ -1,7 +1,6 @@
 import TelegramLoginButton from 'react-telegram-login';
-import { useToast, Text } from '@chakra-ui/react';
+import { Alert, AlertIcon, useToast } from '@chakra-ui/react';
 import { useMoralisCloudFunction, useMoralis } from 'react-moralis';
-import { useEffect } from 'react';
 import ConnectionLayout from '../layouts/ConnectionLayout';
 
 const Telegram = () => {
@@ -14,9 +13,6 @@ const Telegram = () => {
 		isLoading: veryfingtelegram,
 	} = useMoralisCloudFunction('telegramVerify', {}, { autoFetch: false });
 
-	useEffect(() => {
-		if (user) refetchUserData();
-	}, []);
 	const handleTelegramResponse = (response) => {
 		console.log(response);
 		telegramVerify({
@@ -44,9 +40,10 @@ const Telegram = () => {
 	return (
 		<ConnectionLayout connectionName={'telegram'}>
 			{user?.get('socials')?.telegram ? (
-				<Text as='span' fontSize='sm' color='green.500'>
+				<Alert status='success' rounded='md' fontSize='sm'>
+					<AlertIcon />
 					Connected {user.get('socials').telegram.userId}
-				</Text>
+				</Alert>
 			) : (
 				<TelegramLoginButton
 					disabled={veryfingtelegram}

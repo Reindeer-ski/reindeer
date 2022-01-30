@@ -1,4 +1,4 @@
-import { Button, Text, useToast } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, useToast } from '@chakra-ui/react';
 import { useMoralis, useMoralisCloudFunction } from 'react-moralis';
 import OauthPopup from 'react-oauth-popup';
 import ConnectionLayout from '../layouts/ConnectionLayout';
@@ -8,7 +8,7 @@ const DISCORD_AUTH_URL =
 
 const Discord = () => {
 	const toast = useToast();
-	const { user } = useMoralis();
+	const { user, refetchUserData } = useMoralis();
 
 	const onCode = async (code) => {
 		console.log('code', code);
@@ -22,6 +22,7 @@ const Discord = () => {
 					isClosable: true,
 				}),
 			onSuccess: (data) => {
+				refetchUserData();
 				toast({
 					title: 'Success',
 					description: 'Discord account verified',
@@ -46,9 +47,10 @@ const Discord = () => {
 	return (
 		<ConnectionLayout connectionName={'discord'}>
 			{user?.get('socials')?.discord ? (
-				<Text as='span' fontSize='sm' color='green.500'>
+				<Alert status='success' rounded='md' fontSize='sm'>
+					<AlertIcon />
 					Connected {user.get('socials').discord.username}
-				</Text>
+				</Alert>
 			) : (
 				<OauthPopup url={DISCORD_AUTH_URL} onCode={onCode} onClose={onClose}>
 					<Button
