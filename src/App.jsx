@@ -9,6 +9,7 @@ import Loader from './components/Loader';
 import Settings from './pages/Settings';
 import { useMoralis } from 'react-moralis';
 import Notifications from './pages/Notifications';
+import Explore from './pages/Explore';
 
 const App = () => {
 	const { refetchUserData, user } = useMoralis();
@@ -26,6 +27,15 @@ const App = () => {
 							element={
 								<Suspense fallback={<Loader />}>
 									<Landing />
+								</Suspense>
+							}
+						/>
+						<Route
+							exact
+							path='/explore'
+							element={
+								<Suspense fallback={<Loader />}>
+									<Explore />
 								</Suspense>
 							}
 						/>

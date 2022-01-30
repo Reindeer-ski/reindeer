@@ -41,6 +41,7 @@ const Navbar = (props) => {
 				<HStack display={{ base: 'none', sm: 'flex' }}>
 					<NavLink to='/'>Home</NavLink>
 					<NavLink to='/dashboard'>Dashboard</NavLink>
+					<NavLink to='/explore'>Explore</NavLink>
 				</HStack>
 				<HStack>
 					<Notifications />
@@ -93,6 +94,14 @@ const MobileNav = ({ onToggle }) => {
 					Home
 				</NavLink>
 				<NavLink
+					to='/explore'
+					display='block'
+					width='100%'
+					textAlign='center'
+					onClick={onToggle}>
+					Explore
+				</NavLink>
+				<NavLink
 					to='/dashboard'
 					display='block'
 					width='100%'
@@ -115,7 +124,7 @@ const MobileNav = ({ onToggle }) => {
 				variant={'ghost'}
 				aria-label={'Toggle Navigation'}
 				display={{ base: 'flex', md: 'none' }}
-				position='absolute'
+				position='fixed'
 				right={4}
 				top={3}
 				zIndex='1001'
