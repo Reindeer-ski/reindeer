@@ -28,8 +28,10 @@ const Explore = () => {
 	}, [data]);
 
 	useEffect(() => {
-		const newRes = data.filter((dApp) =>
-			dApp.get('name').toLowerCase().includes(searchQuery.toLowerCase())
+		const newRes = data.filter(
+			(dApp) =>
+				dApp.get('name').toLowerCase().includes(searchQuery.toLowerCase()) ||
+				dApp.get('address').toLowerCase().includes(searchQuery.toLowerCase())
 		);
 		setResults(newRes);
 	}, [searchQuery]);
@@ -143,9 +145,9 @@ const DAppCards = ({ results }) => {
 			mt='5'>
 			<DAppCard
 				name='Your Address'
-				address={user.get('ethAddress').toLowerCase()}
+				address={user?.get('ethAddress').toLowerCase()}
 				handleSubscribe={() =>
-					handleSubscribe(user.get('ethAddress'), 'Your Address')
+					handleSubscribe(user?.get('ethAddress'), 'Your Address')
 				}
 				imageURL={'https://avatars.githubusercontent.com/u/11744586?s=280&v=4'}
 			/>
@@ -153,7 +155,7 @@ const DAppCards = ({ results }) => {
 				<DAppCard
 					key={idx}
 					name={dApp.get('name')}
-					address={user.get('ethAddress').toLowerCase()}
+					address={dApp.get('address').toLowerCase()}
 					handleSubscribe={handleSubscribe}
 					imageURL={dApp.get('icon')}
 				/>
@@ -167,7 +169,7 @@ const DAppCard = ({ name, imageURL, address, dAppLink, handleSubscribe }) => {
 		<DAppCardLayout name={name} imageURL={imageURL} dAppLink={dAppLink}>
 			<Button
 				onClick={() => {
-					handleSubscribe(address);
+					handleSubscribe(address, name);
 				}}>
 				Subscribe
 			</Button>

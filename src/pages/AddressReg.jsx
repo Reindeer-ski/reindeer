@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useMoralisCloudFunction } from 'react-moralis';
 
-const DappReg = () => {
+const AddressReg = () => {
 	const [formInfo, setFormInfo] = useState({
 		name: '',
 		url: '',
@@ -134,4 +134,4 @@ const DappReg = () => {
 	);
 };
 
-export default DappReg;
+export default AddressReg;
