@@ -11,10 +11,29 @@ import {
 import { GoSearch as Search } from 'react-icons/go';
 import Page from '../components/layouts/Page';
 import DAppCardLayout from '../components/DAppCardLayout';
-import { useMoralis, useMoralisCloudFunction } from 'react-moralis';
-import { useRef } from 'react';
+import {
+	useMoralis,
+	useMoralisCloudFunction,
+	useMoralisQuery,
+} from 'react-moralis';
+import { useRef, useState, useEffect } from 'react';
 
 const Explore = () => {
+	const [searchQuery, setSearchQuery] = useState('');
+	const [results, setResults] = useState([]);
+	const { data, error, isLoading } = useMoralisQuery('Dapp');
+
+	useEffect(() => {
+		setResults(data);
+	}, [data]);
+
+	useEffect(() => {
+		const newRes = data.filter((dApp) =>
+			dApp.get('name').toLowerCase().includes(searchQuery.toLowerCase())
+		);
+		setResults(newRes);
+	}, [searchQuery]);
+
 	return (
 		<Page>
 			<Box width={'100%'} px={5}>
@@ -35,15 +54,17 @@ const Explore = () => {
 							variant='filled'
 							px={15}
 							py={5}
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
 						/>
 					</InputGroup>
 				</Flex>
-				<DAppCards />
+				<DAppCards results={results} />
 			</Box>
 		</Page>
 	);
 };
-const DAppCards = () => {
+const DAppCards = ({ results }) => {
 	const { user, web3, isWeb3Enabled } = useMoralis();
 	const { fetch: subscribeToDApp } = useMoralisCloudFunction(
 		'subscribe',
@@ -53,7 +74,7 @@ const DAppCards = () => {
 	const toast = useToast();
 	const toastIdRef = useRef();
 
-	const handleSubscribe = async (dAppAddress, topic = 'all', name) => {
+	const handleSubscribe = async (dAppAddress, name, topic = 'all') => {
 		toastIdRef.current = toast({
 			title: `Subscribing to ${name}`,
 			description: 'Sign the message to confirm',
@@ -123,9 +144,20 @@ const DAppCards = () => {
 			<DAppCard
 				name='Your Address'
 				address={user.get('ethAddress').toLowerCase()}
-				handleSubscribe={handleSubscribe}
+				handleSubscribe={() =>
+					handleSubscribe(user.get('ethAddress'), 'Your Address')
+				}
 				imageURL={'https://avatars.githubusercontent.com/u/11744586?s=280&v=4'}
 			/>
+			{results.map((dApp, idx) => (
+				<DAppCard
+					key={idx}
+					name={dApp.get('name')}
+					address={user.get('ethAddress').toLowerCase()}
+					handleSubscribe={handleSubscribe}
+					imageURL={dApp.get('icon')}
+				/>
+			))}
 		</Flex>
 	);
 };
