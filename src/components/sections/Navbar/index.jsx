@@ -7,7 +7,7 @@ import {
 	VStack,
 	Text,
 } from '@chakra-ui/react';
-import Notifications from './Notifications';
+import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import UserMenu from './UserMenu';
 import { ExternalLink, NavLink } from './Links';
 import { VscClose } from 'react-icons/vsc';
@@ -44,7 +44,7 @@ const Navbar = (props) => {
 					<NavLink to='/explore'>Explore</NavLink>
 				</HStack>
 				<HStack>
-					<Notifications />
+					<ColorModeSwitcher />
 					<UserMenu />
 					<IconButton
 						onClick={onToggle}
