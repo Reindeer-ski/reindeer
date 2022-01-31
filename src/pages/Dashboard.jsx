@@ -11,15 +11,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import NotifCard from '../components/NotifCard';
 import DAppCardLayout from '../components/DAppCardLayout';
 import { InternalLink } from '../components/Links';
+import { useMoralisQuery } from 'react-moralis';
 
-const Landing = () => {
+const Dashboard = () => {
+	const { data, loading, error } = useMoralisQuery('');
 	return (
 		<Page>
-			{/* <Heading as='h1' size='xl' textAlign='center'>
-				Dashboard
-			</Heading>
-			<Divider></Divider> */}
-
 			<Box>
 				<Heading as='h2' size='lg' my='5' textAlign={'center'}>
 					Recent Notifications
@@ -114,4 +111,4 @@ const getInternalLinkProps = (newNotifs) => {
 	};
 };
 
-export default Landing;
+export default Dashboard;
