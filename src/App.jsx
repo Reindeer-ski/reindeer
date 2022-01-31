@@ -1,15 +1,11 @@
 import { Suspense, useEffect } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Routes, Route, Navigate } from 'react-router';
-import Landing from './pages/Landing';
-import Dashboard from './pages/Dashboard';
 import extendedTheme from './theme';
 import DefaultLayout from './components/layouts/DefaultLayout';
 import Loader from './components/Loader';
-import Settings from './pages/Settings';
 import { useMoralis } from 'react-moralis';
-import Notifications from './pages/Notifications';
-import Explore from './pages/Explore';
+import React, { lazy } from 'react';
 
 const App = () => {
 	const { refetchUserData, user } = useMoralis();
@@ -21,65 +17,59 @@ const App = () => {
 			<DefaultLayout>
 				<Routes>
 					<Route path='/'>
-						<Route
-							exact
-							path=''
-							element={
-								<Suspense fallback={<Loader />}>
-									<Landing />
-								</Suspense>
-							}
-						/>
-						<Route
-							exact
-							path='/explore'
-							element={
-								<Suspense fallback={<Loader />}>
-									<Explore />
-								</Suspense>
-							}
-						/>
-						<Route
-							exact
-							path='/dashboard'
-							element={
-								<Suspense fallback={<Loader />}>
-									<Dashboard />
-								</Suspense>
-							}
-						/>
-						<Route
-							exact
-							path='/all'
-							element={
-								<Suspense fallback={<Loader />}>All Notifications</Suspense>
-							}
-						/>
-						<Route
-							exact
-							path='/dapp/:address'
-							element={
-								<Suspense fallback={<Loader />}>
-									<Notifications />
-								</Suspense>
-							}
-						/>
-						<Route
-							exact
-							path='/settings'
-							element={
-								<Suspense fallback={<Loader />}>
-									<Settings />
-								</Suspense>
-							}
-						/>
-						<Route exact path='404' element={<>404 Page not found</>} />
-						<Route path='*' element={<Navigate to='/404' />} />
+						{paths.map(({ path, component }) => (
+							<Route
+								key={path}
+								path={path}
+								element={
+									<Suspense fallback={<Loader />}>
+										{React.createElement(component)}
+									</Suspense>
+								}></Route>
+						))}
 					</Route>
 				</Routes>
 			</DefaultLayout>
 		</ChakraProvider>
 	);
 };
+const paths = [
+	{
+		path: '/',
+		exact: true,
+		component: lazy(() => import('./pages/Landing')),
+	},
+	{
+		path: '/dapp-register',
+		exact: true,
+		component: lazy(() => import('./pages/DappReg')),
+	},
+	{
+		path: '/explore',
+		exact: true,
+		component: lazy(() => import('./pages/Explore')),
+	},
+	{
+		path: '/dashboard',
+		exact: true,
+		component: lazy(() => import('./pages/Dashboard')),
+	},
+
+	{
+		path: '/dapp/:address',
+		exact: true,
+		component: lazy(() => import('./pages/Notifications')),
+	},
+	{
+		path: '/settings',
+		exact: true,
+		component: lazy(() => import('./pages/Settings')),
+	},
+	{
+		path: '/simulate',
+		exact: true,
+		component: lazy(() => import('./pages/Simulate')),
+	},
+];
 
 export default App;
