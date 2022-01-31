@@ -8,9 +8,12 @@ import { useMoralis } from 'react-moralis';
 import React, { lazy } from 'react';
 
 const App = () => {
-	const { refetchUserData, user } = useMoralis();
+	const { refetchUserData, user, enableWeb3 } = useMoralis();
 	useEffect(() => {
-		if (user) refetchUserData();
+		if (user) {
+			refetchUserData();
+			enableWeb3();
+		}
 	}, [user]);
 	return (
 		<ChakraProvider theme={extendedTheme}>
