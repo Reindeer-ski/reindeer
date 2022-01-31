@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
 	Heading,
 	VStack,
@@ -11,10 +12,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import NotifCard from '../components/NotifCard';
 import DAppCardLayout from '../components/DAppCardLayout';
 import { InternalLink } from '../components/Links';
-import { useMoralisQuery } from 'react-moralis';
+import { useMoralisCloudFunction } from 'react-moralis';
 
 const Dashboard = () => {
-	const { data, loading, error } = useMoralisQuery('');
+	const { data, isLoading } = useMoralisCloudFunction('getNotifications');
+	const { data: subs } = useMoralisCloudFunction('getSubscriptions');
+
+	window.subs = subs;
+
 	return (
 		<Page>
 			<Box>
@@ -30,17 +35,19 @@ const Dashboard = () => {
 					maxW={{ base: '100%', sm: '80ch' }}
 					bg={useColorModeValue('gray.50', 'gray.700')}
 					borderRadius='md'>
-					<NotifCard
-						title={'Test'}
-						desc={'lorem10'}
-						time={'11/11/11'}
-						cta={'button'}
-						icon={
-							'https://pbs.twimg.com/profile_images/1471064848876425224/N40TS_20_400x400.png'
-						}
-						senderName={'UniSwap'}
-						senderAdd={'0x12121212'}
-					/>
+					{data?.map((notif, idx) => (
+						<NotifCard
+							key={idx}
+							title={notif.title}
+							desc={notif.description}
+							time={notif.createdAt}
+							notifUrl={notif.url}
+							icon={notif.senderDetails[0].icon}
+							dappName={notif.senderDetails[0].name}
+							dappAdd={notif.senderDetails[0].address}
+							dappUrl={notif.senderDetails[0].url}
+						/>
+					))}
 
 					<Link
 						as={RouterLink}
@@ -57,36 +64,19 @@ const Dashboard = () => {
 					Your DApps
 				</Heading>
 				<HStack spacing={5} align='center' overflow={'auto'} mt='5'>
-					<DAppCardLayout
-						name={'Snowball'}
-						address='0x'
-						imageURL={
-							'https://pbs.twimg.com/profile_images/1471064848876425224/N40TS_20_400x400.png'
-						}>
-						<InternalLink to={`/dapp/0x`} {...getInternalLinkProps(1)}>
-							View Notifications
-						</InternalLink>
-					</DAppCardLayout>
-					<DAppCardLayout
-						name={'Uniswap'}
-						address='0x'
-						imageURL={
-							'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Uniswap_Logo.svg/1026px-Uniswap_Logo.svg.png'
-						}>
-						<InternalLink to={`/dapp/0x`} {...getInternalLinkProps(0)}>
-							View Notifications
-						</InternalLink>
-					</DAppCardLayout>
-					<DAppCardLayout
-						name={'Snowball'}
-						address='0x'
-						imageURL={
-							'https://www.newsbtc.com/wp-content/uploads/2020/09/dhedge-img.png'
-						}>
-						<InternalLink to={`/dapp/0x`} {...getInternalLinkProps(0)}>
-							View Notifications
-						</InternalLink>
-					</DAppCardLayout>
+					{subs?.map((sub, idx) => (
+						<DAppCardLayout
+							key={idx}
+							name={sub?.senderDetails[0]?.name}
+							address={sub?.senderDetails[0]?.address}
+							imageURL={sub?.senderDetails[0]?.icon}>
+							<InternalLink
+								to={`/dapp/${sub?.senderDetails[0]?.address}`}
+								{...getInternalLinkProps(1)}>
+								View Notifications
+							</InternalLink>
+						</DAppCardLayout>
+					))}
 				</HStack>
 			</Box>
 		</Page>
