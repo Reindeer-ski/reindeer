@@ -5,10 +5,11 @@ import {
 	InputGroup,
 	InputLeftElement,
 	Input,
+	Button,
 } from '@chakra-ui/react';
-import DAppCard from '../components/DAppCard';
 import { GoSearch as Search } from 'react-icons/go';
 import Page from '../components/layouts/Page';
+import DAppCardLayout from '../components/DAppCardLayout';
 
 const Explore = () => {
 	return (
@@ -42,28 +43,30 @@ const Explore = () => {
 					justify='center'
 					wrap='wrap'
 					mt='5'>
-					<DAppCard
+					<DAppCardLayout
 						name={'Snowball'}
-						address='0x'
-						newNotifs={1}
+						// key='0x'
 						imageURL={
 							'https://pbs.twimg.com/profile_images/1471064848876425224/N40TS_20_400x400.png'
-						}
-					/>
-					<DAppCard
-						name={'UniSwap'}
-						address='0x'
+						}>
+						<Button>Subscribe</Button>
+					</DAppCardLayout>
+					<DAppCardLayout
+						name={'Uniswap'}
+						// key='0x'
 						imageURL={
 							'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Uniswap_Logo.svg/1026px-Uniswap_Logo.svg.png'
-						}
-					/>
-					<DAppCard
+						}>
+						<Button>Subscribe</Button>
+					</DAppCardLayout>
+					<DAppCardLayout
 						name={'dHEDGE'}
-						address='0x'
+						// key='0x'
 						imageURL={
 							'https://www.newsbtc.com/wp-content/uploads/2020/09/dhedge-img.png'
-						}
-					/>
+						}>
+						<Button>Subscribe</Button>
+					</DAppCardLayout>
 				</Flex>
 			</Box>
 		</Page>

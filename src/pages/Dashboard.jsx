@@ -7,10 +7,10 @@ import {
 	HStack,
 } from '@chakra-ui/react';
 import Page from '../components/layouts/Page';
-import { NavLink } from '../components/sections/Navbar/Links';
 import { Link as RouterLink } from 'react-router-dom';
-import DAppCard from '../components/DAppCard';
 import NotifCard from '../components/NotifCard';
+import DAppCardLayout from '../components/DAppCardLayout';
+import { InternalLink } from '../components/Links';
 
 const Landing = () => {
 	return (
@@ -60,29 +60,58 @@ const Landing = () => {
 					Your DApps
 				</Heading>
 				<HStack spacing={5} align='center' overflow={'auto'} mt='5'>
-					<DAppCard
+					<DAppCardLayout
 						name={'Snowball'}
 						address='0x'
-						newNotifs={1}
 						imageURL={
 							'https://pbs.twimg.com/profile_images/1471064848876425224/N40TS_20_400x400.png'
-						}></DAppCard>
-					<DAppCard
-						name={'UniSwap'}
+						}>
+						<InternalLink to={`/dapp/0x`} {...getInternalLinkProps(1)}>
+							View Notifications
+						</InternalLink>
+					</DAppCardLayout>
+					<DAppCardLayout
+						name={'Uniswap'}
 						address='0x'
 						imageURL={
 							'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Uniswap_Logo.svg/1026px-Uniswap_Logo.svg.png'
-						}></DAppCard>
-					<DAppCard
-						name={'dHEDGE'}
+						}>
+						<InternalLink to={`/dapp/0x`} {...getInternalLinkProps(0)}>
+							View Notifications
+						</InternalLink>
+					</DAppCardLayout>
+					<DAppCardLayout
+						name={'Snowball'}
 						address='0x'
 						imageURL={
 							'https://www.newsbtc.com/wp-content/uploads/2020/09/dhedge-img.png'
-						}></DAppCard>
+						}>
+						<InternalLink to={`/dapp/0x`} {...getInternalLinkProps(0)}>
+							View Notifications
+						</InternalLink>
+					</DAppCardLayout>
 				</HStack>
 			</Box>
 		</Page>
 	);
+};
+const getInternalLinkProps = (newNotifs) => {
+	return {
+		fontSize: 'sm',
+		position: 'relative',
+		_after: () =>
+			newNotifs && {
+				content: '""',
+				display: 'block',
+				width: '0.25rem',
+				height: '0.25rem',
+				borderRadius: '50%',
+				backgroundColor: 'red.500',
+				position: 'absolute',
+				top: '1',
+				right: '-2',
+			},
+	};
 };
 
 export default Landing;
