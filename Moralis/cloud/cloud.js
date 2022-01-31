@@ -128,7 +128,7 @@ Moralis.Cloud.define('sendNotification', async (request) => {
 			url: `https://api.telegram.org/bot${config.get(
 				'TelegramBotToken'
 			)}/sendMessage?chat_id=${socials.telegram.userId}&text=${
-				request.params.message
+				request.params.description
 			}`,
 		});
 	}
