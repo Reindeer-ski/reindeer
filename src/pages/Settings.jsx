@@ -35,13 +35,16 @@ const Settings = () => {
 					mx='auto'
 					py={10}
 					maxW={'80ch'}
+					w={'100%'}
 					bg={useColorModeValue('orange.50', 'gray.700')}
 					borderRadius='md'>
 					<Avatar
 						size={'lg'}
 						src={makeBlockie(user?.get('ethAddress') || '0x')}
 					/>
-					<Text>{user?.get('ethAddress')}</Text>
+					<Text maxW='60ch' isTruncated={true}>
+						{user?.get('ethAddress')}
+					</Text>
 				</VStack>
 				<Divider />
 				{/* Connections */}

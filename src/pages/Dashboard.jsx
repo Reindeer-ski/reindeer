@@ -1,13 +1,9 @@
 import {
-	Text,
 	Heading,
-	Divider,
 	VStack,
 	useColorModeValue,
 	Box,
 	Link,
-	Grid,
-	GridItem,
 	HStack,
 } from '@chakra-ui/react';
 import Page from '../components/layouts/Page';
@@ -34,7 +30,7 @@ const Landing = () => {
 					mx='auto'
 					py={10}
 					px={6}
-					maxW={'80ch'}
+					maxW={{ base: '100%', sm: '80ch' }}
 					bg={useColorModeValue('gray.50', 'gray.700')}
 					borderRadius='md'>
 					<NotifCard
@@ -63,12 +59,7 @@ const Landing = () => {
 				<Heading as='h2' size='lg' my='5' textAlign={'center'}>
 					Your DApps
 				</Heading>
-				<HStack
-					spacing={5}
-					align='center'
-					justify='center'
-					wrap='flexWrap'
-					mt='5'>
+				<HStack spacing={5} align='center' overflow={'auto'} mt='5'>
 					<DAppCard
 						name={'Snowball'}
 						address='0x'

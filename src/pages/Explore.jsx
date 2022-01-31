@@ -5,7 +5,6 @@ import {
 	InputGroup,
 	InputLeftElement,
 	Input,
-	HStack,
 } from '@chakra-ui/react';
 import DAppCard from '../components/DAppCard';
 import { GoSearch as Search } from 'react-icons/go';
@@ -35,11 +34,13 @@ const Explore = () => {
 						/>
 					</InputGroup>
 				</Flex>
-				<HStack
-					spacing={5}
+				<Flex
+					direction='row'
+					w={'100%'}
+					gap={5}
 					align='center'
 					justify='center'
-					wrap='flexWrap'
+					wrap='wrap'
 					mt='5'>
 					<DAppCard
 						name={'Snowball'}
@@ -63,7 +64,7 @@ const Explore = () => {
 							'https://www.newsbtc.com/wp-content/uploads/2020/09/dhedge-img.png'
 						}
 					/>
-				</HStack>
+				</Flex>
 			</Box>
 		</Page>
 	);
