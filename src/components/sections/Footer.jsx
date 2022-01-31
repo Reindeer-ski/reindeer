@@ -18,9 +18,17 @@ const Footer = (props) => {
 			top={0}>
 			<NavLink to='/'>Reindeer</NavLink>
 
-			<VStack>
+			<VStack align={'start'}>
 				<NavLink to='/'>Home</NavLink>
-				<NavLink to='/about'>About</NavLink>
+				<NavLink to='/settings'>Settings</NavLink>
+			</VStack>
+			<VStack align={'start'}>
+				<NavLink to='/dapp/all'>All Notifications</NavLink>
+				<NavLink to='/explore'>Explore DApps</NavLink>
+			</VStack>
+			<VStack align={'start'}>
+				<NavLink to='/simulate'>Simulate</NavLink>
+				<NavLink to='/dapp-register'>Register DApp</NavLink>
 			</VStack>
 		</Flex>
 	);
