@@ -16,8 +16,8 @@ const NotifCard = ({
 	icon,
 	time,
 	notifUrl,
-	dappName = 'Dapp Name',
-	senderAdd,
+	dappName,
+	dappAdd,
 	dappUrl,
 }) => {
 	return (
@@ -46,14 +46,14 @@ const NotifCard = ({
 						mt={{ base: '10px', md: '20px' }}
 					/>
 				</GridItem>
-				<GridItem rowSpan={2} colSpan={{ base: 4, md: 12 }} mt={2}>
+				<GridItem rowSpan={2} colSpan={{ base: 4, md: 10 }} mt={2}>
 					<Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight='bold'>
 						{title}
 					</Text>
 					<Text fontSize='xs'>{desc}</Text>
 				</GridItem>
 
-				<GridItem rowSpan={1} colSpan={{ base: 1, md: 6 }} mt={-1}>
+				<GridItem rowSpan={1} colSpan={{ base: 1, md: 4 }} mt={-1}>
 					<ExternalLink
 						fontSize='sm'
 						display='inline-block'
@@ -65,11 +65,11 @@ const NotifCard = ({
 				</GridItem>
 				<GridItem
 					rowSpan={1}
-					colSpan={{ base: 2, md: 5 }}
-					mt={-1}
-					display={{ base: 'none', md: 'block' }}>
+					colSpan={{ base: 2, md: 7 }}
+					display={{ base: 'none', md: 'block' }}
+					mt={-0.5}>
 					<Text fontSize='sm' color='gray.500' isTruncated>
-						{senderAdd}
+						{dappAdd}
 					</Text>
 				</GridItem>
 				<GridItem
@@ -78,7 +78,8 @@ const NotifCard = ({
 					rowStart={3}
 					rowEnd={4}
 					colStart={{ base: 1, md: 14 }}
-					colEnd={{ base: 2, md: 15 }}>
+					colEnd={{ base: 2, md: 15 }}
+					mt={-1}>
 					<ExternalLink
 						fontSize='sm'
 						href={notifUrl}
@@ -90,7 +91,7 @@ const NotifCard = ({
 				<GridItem
 					rowStart={{ base: 3, md: 1 }}
 					rowEnd={{ base: 4, md: 2 }}
-					colStart={{ base: 3, md: 15 }}
+					colStart={{ base: 3, md: 13 }}
 					colEnd={{ base: 4, md: 16 }}
 					mt={{ base: 0, md: 2 }}>
 					<Text fontSize='xs' color='gray.500'>
