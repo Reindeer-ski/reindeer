@@ -25,49 +25,65 @@ const NotifCard = ({ title, desc, icon, time, cta, senderName, senderAdd }) => {
 			boxShadow={'lg'}
 			rounded={'lg'}>
 			<Grid
-				templateRows={'repeat(3, 1fr)'}
-				templateColumns={'repeat(15, 1fr)'}
+				templateRows='repeat(3, 1fr)'
+				templateColumns={{ base: 'repeat(5,1fr)', md: 'repeat(15, 1fr)' }}
 				p={1}
 				gap={3}>
-				<GridItem rowSpan={3} colSpan={2}>
+				<GridItem rowSpan={{ base: 2, md: 3 }} colSpan={{ base: 1, md: 2 }}>
 					<Image
-						boxSize='60px'
+						boxSize={{ base: '40px', md: '60px' }}
 						objectFit='cover'
 						src={icon}
 						alt={senderName}
 						borderRadius='sm'
 						m='auto'
-						mt='20px'
+						mt={{ base: '10px', md: '20px' }}
 					/>
 				</GridItem>
-				<GridItem rowSpan={2} colSpan={12} mt={2}>
-					<Text fontSize='xl' fontWeight='bold'>
+				<GridItem rowSpan={2} colSpan={{ base: 4, md: 12 }} mt={2}>
+					<Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight='bold'>
 						{title}
 					</Text>
 					<Text fontSize='xs'>{desc}</Text>
 				</GridItem>
 
-				<GridItem rowSpan={1} colSpan={2} mt={-1}>
+				<GridItem rowSpan={1} colSpan={{ base: 1, md: 2 }} mt={-1}>
 					<Text fontSize='sm' color='gray.500' fontWeight='bold'>
 						{senderName}
 					</Text>
 				</GridItem>
-				<GridItem rowSpan={1} colSpan={9} mt={-1}>
+				<GridItem
+					rowSpan={1}
+					colSpan={{ base: 2, md: 9 }}
+					mt={-1}
+					display={{ base: 'none', md: 'block' }}>
 					<Text fontSize='sm' color='gray.500'>
 						{senderAdd}
 					</Text>
 				</GridItem>
-				<GridItem rowSpan={1} colSpan={1} mt={-2}>
+				<GridItem
+					rowSpan={1}
+					colSpan={1}
+					rowStart={3}
+					rowEnd={4}
+					colStart={{ base: 1, md: 14 }}
+					colEnd={{ base: 2, md: 15 }}
+					mt={-2}>
 					<Button colorScheme='blue' variant='outline' size='xs'>
 						{cta}
 					</Button>
 				</GridItem>
-				<GridItem rowStart={1} rowEnd={2} colStart={15} mt={2}>
+				<GridItem
+					rowStart={{ base: 3, md: 1 }}
+					rowEnd={{ base: 4, md: 2 }}
+					colStart={{ base: 3, md: 15 }}
+					colEnd={{ base: 4, md: 16 }}
+					mt={{ base: 0, md: 2 }}>
 					<Text fontSize='xs' color='gray.500'>
 						{time}
 					</Text>
 				</GridItem>
-				<GridItem rowStart={3} rowEnd={4} colStart={15} mt={-3}>
+				<GridItem rowStart={3} colStart={{ base: 5, md: 15 }} mt={-3}>
 					<IconButton
 						icon={<Del fill='tomato' />}
 						variant={'ghost'}
