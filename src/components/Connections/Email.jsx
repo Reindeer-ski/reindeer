@@ -11,7 +11,7 @@ import ConnectionLayout from '../layouts/ConnectionLayout';
 
 const Email = () => {
 	const { user, refetchUserData } = useMoralis();
-	const [email, setEmail] = useState();
+	const [email, setEmail] = useState('');
 	const toast = useToast();
 
 	useEffect(() => {
