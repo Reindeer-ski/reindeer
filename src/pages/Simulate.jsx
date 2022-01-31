@@ -11,7 +11,7 @@ import {
 	useToast,
 } from '@chakra-ui/react';
 import { useMoralis, useMoralisCloudFunction } from 'react-moralis';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const Simulate = () => {
 	return (
@@ -49,8 +49,15 @@ const SendToAddress = () => {
 		url: '',
 	});
 	const { receiver, title, description, url } = formData;
-
+	const toastIdRef = useRef();
 	const handleSendNotification = async (e) => {
+		toastIdRef.current = toast({
+			title: `Sending notification to ${receiver}`,
+			description: 'Sign the message',
+			status: 'info',
+			duration: null,
+			isClosable: true,
+		});
 		if (isWeb3Enabled) {
 			try {
 				const signer = web3.getSigner(user.get('ethAddress'));
@@ -99,6 +106,7 @@ const SendToAddress = () => {
 				});
 			}
 		}
+		toast.close(toastIdRef.current);
 	};
 	return (
 		<>
@@ -183,7 +191,15 @@ const SendToTopic = () => {
 		{},
 		{ autoFetch: false }
 	);
+	const toastIdRef = useRef();
 	const handleSendNotification = async () => {
+		toastIdRef.current = toast({
+			title: 'Sending notification',
+			description: 'Sign the notification',
+			status: 'info',
+			duration: null,
+			isClosable: true,
+		});
 		if (isWeb3Enabled) {
 			try {
 				const signer = web3.getSigner(user.get('ethAddress'));
@@ -232,6 +248,7 @@ const SendToTopic = () => {
 				});
 			}
 		}
+		toast.close(toastIdRef.current);
 	};
 	return (
 		<>
