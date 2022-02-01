@@ -17,19 +17,22 @@ const Notifications = () => {
 			</Heading>
 			<Flex align='center' justify='center'>
 				<Box width={{ base: '100%', sm: '80%' }} mt={5}>
-					{data?.map((notif, idx) => (
-						<NotifCard
-							key={idx}
-							title={notif?.title}
-							desc={notif?.description}
-							time={notif?.createdAt}
-							notifUrl={notif?.url}
-							icon={notif?.senderDetails[0]?.icon}
-							dappName={notif?.senderDetails[0]?.name}
-							dappAdd={notif?.senderDetails[0]?.address}
-							dappUrl={notif?.senderDetails[0]?.url}
-						/>
-					))}
+					{data &&
+						[...data]
+							?.reverse()
+							?.map((notif, idx) => (
+								<NotifCard
+									key={idx}
+									title={notif?.title}
+									desc={notif?.description}
+									time={notif?.createdAt}
+									notifUrl={notif?.url}
+									icon={notif?.senderDetails[0]?.icon}
+									dappName={notif?.senderDetails[0]?.name}
+									dappAdd={notif?.senderDetails[0]?.address}
+									dappUrl={notif?.senderDetails[0]?.url}
+								/>
+							))}
 				</Box>
 			</Flex>
 		</Page>

@@ -34,19 +34,22 @@ const Dashboard = () => {
 					maxW={{ base: '100%', sm: '80ch' }}
 					bg={useColorModeValue('gray.50', 'gray.700')}
 					borderRadius='md'>
-					{data?.map((notif, idx) => (
-						<NotifCard
-							key={idx}
-							title={notif?.title}
-							desc={notif?.description}
-							time={notif?.createdAt}
-							notifUrl={notif?.url}
-							icon={notif?.senderDetails[0]?.icon}
-							dappName={notif?.senderDetails[0]?.name}
-							dappAdd={notif?.senderDetails[0]?.address}
-							dappUrl={notif?.senderDetails[0]?.url}
-						/>
-					))}
+					{data &&
+						[...data]
+							.reverse()
+							?.map((notif, idx) => (
+								<NotifCard
+									key={idx}
+									title={notif?.title}
+									desc={notif?.description}
+									time={notif?.createdAt}
+									notifUrl={notif?.url}
+									icon={notif?.senderDetails[0]?.icon}
+									dappName={notif?.senderDetails[0]?.name}
+									dappAdd={notif?.senderDetails[0]?.address}
+									dappUrl={notif?.senderDetails[0]?.url}
+								/>
+							))}
 
 					<Link
 						as={RouterLink}
