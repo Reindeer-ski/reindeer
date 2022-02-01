@@ -6,9 +6,8 @@ import { useMoralisCloudFunction } from 'react-moralis';
 
 const Notifications = () => {
 	const { address: dAppAddress } = useParams();
-
 	const { data } = useMoralisCloudFunction('getNotifications', {
-		sender: dAppAddress,
+		sender: dAppAddress === '0xall' ? null : dAppAddress,
 	});
 
 	return (
