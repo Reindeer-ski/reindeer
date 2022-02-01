@@ -4,7 +4,7 @@ import OauthPopup from 'react-oauth-popup';
 import ConnectionLayout from '../layouts/ConnectionLayout';
 
 const DISCORD_AUTH_URL =
-	'https://discord.com/api/oauth2/authorize?client_id=928739406339248138&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code&scope=identify%20guilds.join';
+	'https://discord.com/api/oauth2/authorize?client_id=928739406339248138&redirect_uri=https%3A%2F%2Freindeer.tk%2Fsettings&response_type=code&scope=identify%20guilds.join';
 
 const Discord = () => {
 	const toast = useToast();

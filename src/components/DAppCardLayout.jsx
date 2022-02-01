@@ -3,7 +3,7 @@ import {
 	Center,
 	Box,
 	useColorModeValue,
-	Stack,
+	Flex,
 } from '@chakra-ui/react';
 import ProductImage from './ProductImage';
 
@@ -21,15 +21,21 @@ const DAppCardLayout = ({ imageURL, children, name }) => {
 				boxShadow={'xl'}
 				rounded={'lg'}
 				pos={'relative'}
-				zIndex={1}>
+				zIndex={1}
+				h='300px'>
 				<ProductImage imageURL={imageURL} />
-				<Stack pt={10} align={'center'}>
-					<Heading fontSize={'lg'} fontWeight={500}>
+				<Flex
+					pt={10}
+					gap={5}
+					justify='space-between'
+					flexDirection='column'
+					align={'center'}>
+					<Heading as='h3' fontSize={'lg'} fontWeight={500}>
 						{name}
 					</Heading>
 
 					{children}
-				</Stack>
+				</Flex>
 			</Box>
 		</Center>
 	);

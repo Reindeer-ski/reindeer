@@ -45,7 +45,7 @@ const paths = [
 	{
 		path: '/dapp-register',
 		exact: true,
-		component: lazy(() => import('./pages/DappReg')),
+		component: lazy(() => import('./pages/AddressReg')),
 	},
 	{
 		path: '/explore',

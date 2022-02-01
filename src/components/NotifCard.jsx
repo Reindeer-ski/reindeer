@@ -1,19 +1,25 @@
 import {
 	Text,
-	Heading,
 	useColorModeValue,
 	Box,
-	Link,
 	Image,
 	Grid,
 	GridItem,
 	IconButton,
-	Center,
-	Button,
 } from '@chakra-ui/react';
 import { RiDeleteBin6Fill as Del } from 'react-icons/ri';
+import { ExternalLink } from './Links';
 
-const NotifCard = ({ title, desc, icon, time, cta, senderName, senderAdd }) => {
+const NotifCard = ({
+	title,
+	desc,
+	icon,
+	time,
+	notifUrl,
+	dappName,
+	dappAdd,
+	dappUrl,
+}) => {
 	return (
 		<Box
 			w={'100%'}
@@ -34,31 +40,36 @@ const NotifCard = ({ title, desc, icon, time, cta, senderName, senderAdd }) => {
 						boxSize={{ base: '40px', md: '60px' }}
 						objectFit='cover'
 						src={icon}
-						alt={senderName}
+						alt={dappName}
 						borderRadius='sm'
 						m='auto'
 						mt={{ base: '10px', md: '20px' }}
 					/>
 				</GridItem>
-				<GridItem rowSpan={2} colSpan={{ base: 4, md: 12 }} mt={2}>
+				<GridItem rowSpan={2} colSpan={{ base: 4, md: 10 }} mt={2}>
 					<Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight='bold'>
 						{title}
 					</Text>
 					<Text fontSize='xs'>{desc}</Text>
 				</GridItem>
 
-				<GridItem rowSpan={1} colSpan={{ base: 1, md: 2 }} mt={-1}>
-					<Text fontSize='sm' color='gray.500' fontWeight='bold'>
-						{senderName}
-					</Text>
+				<GridItem rowSpan={1} colSpan={{ base: 1, md: 4 }} mt={-1}>
+					<ExternalLink
+						fontSize='sm'
+						display='inline-block'
+						color='gray.500'
+						fontWeight='bold'
+						href={dappUrl}>
+						{dappName}
+					</ExternalLink>
 				</GridItem>
 				<GridItem
 					rowSpan={1}
-					colSpan={{ base: 2, md: 9 }}
-					mt={-1}
-					display={{ base: 'none', md: 'block' }}>
-					<Text fontSize='sm' color='gray.500'>
-						{senderAdd}
+					colSpan={{ base: 2, md: 7 }}
+					display={{ base: 'none', md: 'block' }}
+					mt={-0.5}>
+					<Text fontSize='sm' color='gray.500' isTruncated>
+						{dappAdd}
 					</Text>
 				</GridItem>
 				<GridItem
@@ -68,15 +79,19 @@ const NotifCard = ({ title, desc, icon, time, cta, senderName, senderAdd }) => {
 					rowEnd={4}
 					colStart={{ base: 1, md: 14 }}
 					colEnd={{ base: 2, md: 15 }}
-					mt={-2}>
-					<Button colorScheme='blue' variant='outline' size='xs'>
-						{cta}
-					</Button>
+					mt={-1}>
+					<ExternalLink
+						fontSize='sm'
+						href={notifUrl}
+						width='10ch'
+						display='inline-block'>
+						Take Action
+					</ExternalLink>
 				</GridItem>
 				<GridItem
 					rowStart={{ base: 3, md: 1 }}
 					rowEnd={{ base: 4, md: 2 }}
-					colStart={{ base: 3, md: 15 }}
+					colStart={{ base: 3, md: 13 }}
 					colEnd={{ base: 4, md: 16 }}
 					mt={{ base: 0, md: 2 }}>
 					<Text fontSize='xs' color='gray.500'>

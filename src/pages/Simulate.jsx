@@ -17,8 +17,8 @@ const Simulate = () => {
 	return (
 		<Page>
 			<Flex
-				w={'80%'}
-				mW={'80ch'}
+				maxW={'140ch'}
+				w='100%'
 				mx='auto'
 				flexDirection='column'
 				align='center'
@@ -47,8 +47,9 @@ const SendToAddress = () => {
 		title: '',
 		description: '',
 		url: '',
+		topic: '',
 	});
-	const { receiver, title, description, url } = formData;
+	const { receiver, title, description, url, topic } = formData;
 	const toastIdRef = useRef();
 	const handleSendNotification = async (e) => {
 		toastIdRef.current = toast({
@@ -64,7 +65,7 @@ const SendToAddress = () => {
 				const message =
 					`sender=${user.get(
 						'ethAddress'
-					)}&receiver=${receiver.toLowerCase()}&title=${title}&description=${description}` +
+					)}&topic=${topic}&receiver=${receiver.toLowerCase()}&title=${title}&description=${description}` +
 					(url ? `&url=${url}` : '');
 				const signature = await signer.signMessage(message);
 				sendNotification({
@@ -74,12 +75,13 @@ const SendToAddress = () => {
 						title,
 						description,
 						signature,
-						[url]: url,
+						topic,
+						url,
 					},
 					onSuccess: (response) => {
 						toast({
 							title: 'Success',
-							description: 'You have successfully subscribed to this Address',
+							description: 'Notification sent',
 							status: 'success',
 							duration: 9000,
 							isClosable: true,
@@ -154,6 +156,16 @@ const SendToAddress = () => {
 					mb={5}
 				/>
 
+				<FormLabel htmlFor='topic'>Topic</FormLabel>
+				<Input
+					type='text'
+					value={topic}
+					onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
+					placeholder='Topic to publish to'
+					mb={5}
+					id='topic'
+				/>
+
 				<FormLabel htmlFor='url'>CTA url</FormLabel>
 				<Input
 					value={url}
@@ -221,7 +233,7 @@ const SendToTopic = () => {
 					onSuccess: (response) => {
 						toast({
 							title: 'Success',
-							description: 'You have successfully subscribed to this Address',
+							description: 'Notification sent',
 							status: 'success',
 							duration: 9000,
 							isClosable: true,

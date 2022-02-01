@@ -1,69 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Reindeer.Ski
 
-## Available Scripts
+Reindeer is a one-stop solution for all your dapp notifications! Not only push notifications, but also email, Discord, and Telegram!!
 
-In the project directory, you can run:
+Indexing `notify` events on Avalanche, Reindeer.ski will notify you when a new notification event is published by your favourite dapps.
 
-### `npm start`
+We provide a simple API to register your users and send notifications to them.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## What is a Notification
+
+Each notification consists of a title, a description, dapp display image, and an optional link/CTA button with customisable functionalities.
+
+Each notification has an associated topic with it too. Topics are used to group notifications together.
+
+For example, MQTT protocol notifies the subscribers of a specific topic.
+
+Topic anatomy: `dappAddress/topic/subtopic/subsubtopic`
+
 <!-- Notification Screenshot -->
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+![](./docs/images/notification.png)
 
-### `npm test`
+## How to use Reindeer.Ski
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Subscriptions
 
-### `npm run build`
+Users subscribe to the available dapps by providing a signature. Subscription means that the user allows the DApp to send notifications to their account.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Users can find DApps on the Explore Page and subscribe to them.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Users can connect Discord/Telegram/Email accounts on the Settings Page. Whenever a new notification is published, Reindeer.ski will send the notification to the connected accounts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Registrations
 
-### `npm run eject`
+#### `Publisher`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+For publishers to register their addresses, head to the Address registration page and fill the form.
+The subscribers to this address can then receive the notifications signed by this publisher. The messages sent by publishers are signed by their private keys. This mode is useful for DApps that have an existing infrastructure for indexing events and calculations and would just want to plug the notification system in it.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### `DApps`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+For the new DApps, devs can `sponsor` their DApp on the Reindeer.ski contract. Sponsorship grants the DApps quotas for sending notifications. What this means is that the sponsored contract addresses can emit events like `Notify(....)` and Reindeer will index them and send notifications to the subscribers.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+On the other hand, if the DApps don't want to emit the event, their Devs can submit a PR to this repository with the custom event ABIs and onSave triggers. These submitted snippets will be included into the Reindeer.ski Moralis Server. Developers will still need to `sponsor` the contract address to push the notifications to the users.
+We wanted this feature to be decentralised but it can be abused by malicious `onSave` triggers.

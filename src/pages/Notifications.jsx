@@ -6,28 +6,30 @@ import { useMoralisCloudFunction } from 'react-moralis';
 
 const Notifications = () => {
 	const { address: dAppAddress } = useParams();
-	// Cloud function to fetch notifications for dAppAddress
-	const {
-		data: notifications,
-		isLoading,
-		error,
-	} = useMoralisCloudFunction('getNotifications', { dAppAddress });
+	const { data } = useMoralisCloudFunction('getNotifications', {
+		sender: dAppAddress === '0xall' ? null : dAppAddress,
+	});
+
 	return (
 		<Page>
 			<Heading as='h1' size='xl' textAlign='center'>
-				Notifications for {dAppAddress}
+				Notifications from {dAppAddress}
 			</Heading>
 			<Flex align='center' justify='center'>
 				<Box width={{ base: '100%', sm: '80%' }} mt={5}>
-					<NotifCard
-						title='title'
-						desc='description'
-						icon='https://www.newsbtc.com/wp-content/uploads/2020/09/dhedge-img.png'
-						cta='button'
-						time='11/11/11'
-						senderName='dHedge'
-						senderAdd='0x123123123123'
-					/>
+					{data?.map((notif, idx) => (
+						<NotifCard
+							key={idx}
+							title={notif.title}
+							desc={notif.description}
+							time={notif.createdAt}
+							notifUrl={notif.url}
+							icon={notif.senderDetails[0].icon}
+							dappName={notif.senderDetails[0].name}
+							dappAdd={notif.senderDetails[0].address}
+							dappUrl={notif.senderDetails[0].url}
+						/>
+					))}
 				</Box>
 			</Flex>
 		</Page>

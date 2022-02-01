@@ -1,4 +1,4 @@
-import { Flex, Link, useColorModeValue, VStack } from '@chakra-ui/react';
+import { Flex, Link, useColorModeValue, VStack, Image } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = (props) => {
@@ -16,20 +16,29 @@ const Footer = (props) => {
 			bgColor={bgColor}
 			pos={'sticky'}
 			top={0}>
-			<NavLink to='/'>Reindeer</NavLink>
+			<Flex w='10ch' align='center' justify='space-around' ml={10}>
+				<Image
+					src='https://i.imgur.com/PdMXZcU.png'
+					alt='Rudolf'
+					boxSize='50px'
+				/>
+				<NavLink to='/'>Reindeer</NavLink>
+			</Flex>
 
-			<VStack align={'start'}>
-				<NavLink to='/'>Home</NavLink>
-				<NavLink to='/settings'>Settings</NavLink>
-			</VStack>
-			<VStack align={'start'}>
-				<NavLink to='/dapp/all'>All Notifications</NavLink>
-				<NavLink to='/explore'>Explore DApps</NavLink>
-			</VStack>
-			<VStack align={'start'}>
-				<NavLink to='/simulate'>Simulate</NavLink>
-				<NavLink to='/dapp-register'>Register DApp</NavLink>
-			</VStack>
+			<Flex w='40%' align='center' justify='space-around'>
+				<VStack align={'start'}>
+					<NavLink to='/'>Home</NavLink>
+					<NavLink to='/settings'>Settings</NavLink>
+				</VStack>
+				<VStack align={'start'}>
+					<NavLink to='/dapp/0xall'>All Notifications</NavLink>
+					<NavLink to='/explore'>Explore DApps</NavLink>
+				</VStack>
+				<VStack align={'start'}>
+					<NavLink to='/simulate'>Simulate</NavLink>
+					<NavLink to='/dapp-register'>Register DApp</NavLink>
+				</VStack>
+			</Flex>
 		</Flex>
 	);
 };
