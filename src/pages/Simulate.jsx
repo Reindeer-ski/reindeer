@@ -17,8 +17,8 @@ const Simulate = () => {
 	return (
 		<Page>
 			<Flex
-				w={'80%'}
-				mW={'80ch'}
+				maxW={'140ch'}
+				w='100%'
 				mx='auto'
 				flexDirection='column'
 				align='center'
@@ -81,7 +81,7 @@ const SendToAddress = () => {
 					onSuccess: (response) => {
 						toast({
 							title: 'Success',
-							description: 'You have successfully subscribed to this Address',
+							description: 'Notification sent',
 							status: 'success',
 							duration: 9000,
 							isClosable: true,
@@ -233,7 +233,7 @@ const SendToTopic = () => {
 					onSuccess: (response) => {
 						toast({
 							title: 'Success',
-							description: 'You have successfully subscribed to this Address',
+							description: 'Notification sent',
 							status: 'success',
 							duration: 9000,
 							isClosable: true,
