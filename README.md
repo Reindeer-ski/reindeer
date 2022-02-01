@@ -2,7 +2,7 @@
 
 Reindeer is a one-stop solution for all your dapp notifications! Not only push notifications, but also email, Discord, and Telegram!!
 
-Indexing `notify` events on Avalanche, Reindeer.ski will notify you when a new notification event is published by your favourite dapps.
+Indexing `notify` events on Avalanche, Reindeer.ski will notify you when a new notification event is published by your favourite dapps. Publishers can use their private keys to sign the notifications, and Reindeer.ski will verify the signature and send the notification to the intended recipients!
 
 We provide a simple API to register your users and send notifications to them.
 
@@ -26,7 +26,7 @@ Topic anatomy: `dappAddress/topic/subtopic/subsubtopic`
 
 Users subscribe to the available dapps by providing a signature. Subscription means that the user allows the DApp to send notifications to their account.
 
-Users can find DApps on the Explore Page and subscribe to them.
+Users can find DApps on the Explore Page and subscribe to them. Publishers can invoke the `subscribeToDApp` cloud function from their websites with the signatures of the users on following data: `sender=${publisherAddress}&topic=${topic}&receiver=${receiverAddress}&platform=1111`. The `platform` is a bitmask of the platforms that the user wants to receive notifications from.
 
 Users can connect Discord/Telegram/Email accounts on the Settings Page. Whenever a new notification is published, Reindeer.ski will send the notification to the connected accounts.
 
