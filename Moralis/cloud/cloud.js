@@ -1,20 +1,3 @@
-Moralis.Cloud.define('telegramHandler000qdbwfn', async (request) => {
-	const logger = Moralis.Cloud.getLogger();
-	logger.info('Request : ' + JSON.stringify(request));
-	// const config = await Moralis.Config.get({ useMasterKey: true });
-
-	return;
-});
-
-// Moralis.Cloud.define('discordAuthUrl', async (request) => {
-// 	const config = await Moralis.Config.get({ useMasterKey: true });
-// 	return (
-// 		`https://discord.com/api/oauth2/authorize?client_id=` +
-// 		config.get('DiscordClientId') +
-// 		`&redirect_uri=https%3A%2F%2Ficcm6faz4mrf.usemoralis.com%3A2053%2Fserver%2Ffunctions%2FdiscordVerify%3F_ApplicationId%3DoRjAw8xhsrb4mlj90NdhDYJKpR9hOKYoKh0BDWiG&response_type=code&scope=identify`
-// 	);
-// });
-
 const handleRequest = async (params) => {
 	const logger = Moralis.Cloud.getLogger();
 
@@ -65,16 +48,52 @@ Moralis.Cloud.define('getUser', async (request) => {
 });
 
 Moralis.Cloud.define('getNotifications', async (request) => {
-	const User = Moralis.Object.extend('User');
-	const query = new Moralis.Query(User);
-	query.equalTo('objectId', request.user.id);
-	const user = await query.first({ useMasterKey: true });
-	const Notifications = Moralis.Object.extend('Notification');
-	const query2 = new Moralis.Query(Notifications);
-	query2.equalTo('user', user);
-	if (request.params.sender) query2.equalTo('sender', request.params.sender);
-	query2.descending('createdAt');
-	const results = await query2.find({ useMasterKey: true });
+	const Notification = Moralis.Object.extend('Notification');
+	const query2 = new Moralis.Query(Notification);
+
+	let match = [{ match: { user: request.user.id } }];
+	if (request.params.sender)
+		match.push({ match: { sender: request.params.sender } });
+
+	pipeline = [
+		...match,
+		{
+			lookup: {
+				from: 'Dapp',
+				localField: 'sender',
+				foreignField: 'address',
+				as: 'senderDetails',
+			},
+		},
+		{
+			sort: { createdAt: -1 },
+		},
+	];
+	const results = await query2.aggregate(pipeline, { useMasterKey: true });
+	return results;
+});
+
+Moralis.Cloud.define('getSubscriptions', async (request) => {
+	const Subscription = Moralis.Object.extend('Subscription');
+	const query2 = new Moralis.Query(Subscription);
+
+	pipeline = [
+		{
+			match: { user: request.user.id },
+		},
+		{
+			lookup: {
+				from: 'Dapp',
+				localField: 'sender',
+				foreignField: 'address',
+				as: 'senderDetails',
+			},
+		},
+		{
+			sort: { createdAt: -1 },
+		},
+	];
+	const results = await query2.aggregate(pipeline, { useMasterKey: true });
 	return results;
 });
 
@@ -92,13 +111,13 @@ Moralis.Cloud.define('sendNotification', async (request) => {
 		signature: request.params.signature,
 	};
 
-	const signData = `sender=${data.sender}&topic=${data.topic}&receiver=${data.receiver}&title=${data.title}&description=${data.description}`;
+	let signData = `sender=${data.sender}&topic=${data.topic}&receiver=${data.receiver}&title=${data.title}&description=${data.description}`;
 	if (data.url) signData += `&url=${data.url}`;
 	if (data.timestamp) signData += `&timestamp=${data.timestamp}`;
 
 	const sig = web3.eth.accounts.recover(signData, data.signature).toLowerCase();
 
-	if (sig != data.receiver) throw new Error('Invalid signature! ' + sig);
+	if (sig != data.sender) throw new Error('Invalid signature! ' + sig);
 
 	const config = await Moralis.Config.get({ useMasterKey: true });
 	const logger = Moralis.Cloud.getLogger();
@@ -111,6 +130,7 @@ Moralis.Cloud.define('sendNotification', async (request) => {
 	const user = await query.first({ useMasterKey: true });
 	if (!user) throw new Error('Invalid receiver address!');
 	let socials = user.get('socials');
+	const email = user.get('email');
 
 	const Subscription = Moralis.Object.extend('Subscription');
 	const query2 = new Moralis.Query(Subscription);
@@ -122,14 +142,41 @@ Moralis.Cloud.define('sendNotification', async (request) => {
 
 	if (results.length == 0) throw new Error('No subscription!');
 
+	const Notification = Moralis.Object.extend('Notification');
+	const notification = new Notification();
+	notification.set('user', user);
+	notification.set('sender', data.sender);
+	notification.set('topic', data.topic);
+	notification.set('title', data.title);
+	notification.set('description', data.description);
+	notification.set('url', data.url);
+	notification.set('timestamp', data.timestamp);
+	notification.save(null, { useMasterKey: true });
+
+	if (email) {
+		Moralis.Cloud.sendEmail({
+			to: email,
+			templateId: 'd-7b590450810148858e31732bd658461b',
+			dynamic_template_data: {
+				title: data.title,
+				description: data.description,
+				sender: data.sender,
+				topic: data.topic,
+				url: data.url,
+			},
+		});
+	}
+
 	if (socials.telegram && socials.telegram.userId) {
 		const msgData = await handleRequest({
 			method: 'GET',
 			url: `https://api.telegram.org/bot${config.get(
 				'TelegramBotToken'
-			)}/sendMessage?chat_id=${socials.telegram.userId}&text=${
-				request.params.message
-			}`,
+			)}/sendMessage?chat_id=${
+				socials.telegram.userId
+			}&parse_mode=MarkdownV2&text=*${data.title}*%0A${data.description}%0A%0A${
+				data.sender
+			}%20/%20${data.topic} `,
 		});
 	}
 	if (socials.discord && socials.discord.channelId) {
@@ -173,12 +220,12 @@ Moralis.Cloud.define('sendToTopic', async (request) => {
 		signature: request.params.signature,
 	};
 
-	const signData = `sender=${data.sender}&topic=${data.topic}&title=${data.title}&description=${data.description}`;
+	let signData = `sender=${data.sender}&topic=${data.topic}&title=${data.title}&description=${data.description}`;
 	if (data.url) signData += `&url=${data.url}`;
 	if (data.timestamp) signData += `&timestamp=${data.timestamp}`;
 	const sig = web3.eth.accounts.recover(signData, data.signature).toLowerCase();
 
-	if (sig != data.receiver) throw new Error('Invalid signature! ' + sig);
+	if (sig != data.sender) throw new Error('Invalid signature! ' + sig);
 
 	const config = await Moralis.Config.get({ useMasterKey: true });
 	const logger = Moralis.Cloud.getLogger();
@@ -205,17 +252,45 @@ Moralis.Cloud.define('sendToTopic', async (request) => {
 
 		const user = await userQuery.first({ useMasterKey: true });
 		const socials = user.get('socials');
+		const email = user.get('email');
 
 		logger.info('Subscriptions: ' + JSON.stringify(socials));
 
+		const Notification = Moralis.Object.extend('Notification');
+		const notification = new Notification();
+		notification.set('user', user);
+		notification.set('sender', data.sender);
+		notification.set('topic', data.topic);
+		notification.set('title', data.title);
+		notification.set('description', data.description);
+		notification.set('url', data.url);
+		notification.set('timestamp', data.timestamp);
+		notification.save(null, { useMasterKey: true });
+
+		if (email) {
+			Moralis.Cloud.sendEmail({
+				to: email,
+				templateId: 'd-7b590450810148858e31732bd658461b',
+				dynamic_template_data: {
+					title: data.title,
+					description: data.description,
+					sender: data.sender,
+					topic: data.topic,
+					url: data.url,
+				},
+			});
+		}
+
 		if (socials.telegram && socials.telegram.userId) {
-			await handleRequest({
+			const msgData = await handleRequest({
 				method: 'GET',
 				url: `https://api.telegram.org/bot${config.get(
 					'TelegramBotToken'
-				)}/sendMessage?chat_id=${socials.telegram.userId}&text=${
-					request.params.message
-				}`,
+				)}/sendMessage?chat_id=${
+					socials.telegram.userId
+				}&parse_mode=MarkdownV2&text=*${data.title}*%0A${
+					data.description
+				}%0A%0A${data.sender}%20/%20${data.topic} `,
 			});
 		}
 		if (socials.discord && socials.discord.channelId) {
@@ -291,7 +366,7 @@ Moralis.Cloud.define('registerDapp', async (request) => {
 		name: request.params.name,
 		icon: request.params.icon,
 		url: request.params.url,
-		address: request.params.address,
+		address: request.params.address.toLowerCase(),
 	};
 
 	const Dapp = Moralis.Object.extend('Dapp');
